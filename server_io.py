@@ -1,6 +1,6 @@
 import socket
 import numpy as np
-from cStringIO import StringIO
+from io import StringIO
 import sys
 from matplotlib import pyplot as plt
 import time

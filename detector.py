@@ -3,6 +3,7 @@ from matplotlib import pyplot as plt
 import numpy as np
 import os
 import shutil
+import time
 
 
 def overlay_mask(mask, image):
@@ -13,7 +14,7 @@ def overlay_mask(mask, image):
 def find_biggest_contour(image):
     # Copy to prevent modification
     image = image.copy()
-    _, contours, hierarchy = cv2.findContours(image, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+    contours, hierarchy = cv2.findContours(image, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
 
     centers = []
     for ii in range(len(contours)):
@@ -40,8 +41,11 @@ if __name__ == '__main__':
     if os.path.exists("./outputs/true_outputs"):
         shutil.rmtree('./outputs/true_outputs')
     os.makedirs("./outputs/true_outputs")
+    
+    print("here")
 
     for f in files:
+	start = time.time()
         # Convert image to RGB from BGR
         image = cv2.imread(f)
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
@@ -55,32 +59,32 @@ if __name__ == '__main__':
         min_red = np.array([0, 100, 80])
         max_red = np.array([10, 256, 256])
         image_red1 = cv2.inRange(image_blur_hsv, min_red, max_red)
-        plt.imsave("./outputs/bs_outputs/" + os.path.basename(f).split(".")[0] + "_a_1.png", image_red1, cmap='gray')
+        #plt.imsave("./outputs/bs_outputs/" + os.path.basename(f).split(".")[0] + "_a_1.png", image_red1, cmap='gray')
 
         # 170-180 hue
         min_red2 = np.array([170, 100, 80])
         max_red2 = np.array([175, 256, 256])
         image_red2 = cv2.inRange(image_blur_hsv, min_red2, max_red2)
-        plt.imsave("./outputs/bs_outputs/" + os.path.basename(f).split(".")[0] + "_a_2.png", image_red2, cmap='gray')
+        #plt.imsave("./outputs/bs_outputs/" + os.path.basename(f).split(".")[0] + "_a_2.png", image_red2, cmap='gray')
         image_red = image_red1 + image_red2
-        plt.imsave("./outputs/bs_outputs/" + os.path.basename(f).split(".")[0] + "_b.png", image_red, cmap='gray')
+        #plt.imsave("./outputs/bs_outputs/" + os.path.basename(f).split(".")[0] + "_b.png", image_red, cmap='gray')
         kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (15, 15))
         image_red_closed = cv2.morphologyEx(image_red, cv2.MORPH_CLOSE, kernel)
         image_red_closed_then_opened = cv2.morphologyEx(image_red_closed, cv2.MORPH_OPEN, kernel)
-        plt.imsave("./outputs/bs_outputs/" + os.path.basename(f).split(".")[0] + "_c.png", image_red_closed, cmap='gray')
-        plt.imsave("./outputs/bs_outputs/" + os.path.basename(f).split(".")[0] + "_d.png", image_red_closed_then_opened, cmap='gray')
+        #plt.imsave("./outputs/bs_outputs/" + os.path.basename(f).split(".")[0] + "_c.png", image_red_closed, cmap='gray')
+        #plt.imsave("./outputs/bs_outputs/" + os.path.basename(f).split(".")[0] + "_d.png", image_red_closed_then_opened, cmap='gray')
 
 
         contours, red_mask, centers = find_biggest_contour(image_red_closed_then_opened)
 
-        plt.imsave("./outputs/bs_outputs/" + os.path.basename(f).split(".")[0] + "_e.png", red_mask, cmap='gray')
+        #plt.imsave("./outputs/bs_outputs/" + os.path.basename(f).split(".")[0] + "_e.png", red_mask, cmap='gray')
         image_overlayed_mask = overlay_mask(red_mask, image)
-        plt.imsave("./outputs/bs_outputs/" + os.path.basename(f).split(".")[0] + "_f.png", image_overlayed_mask)
+        #plt.imsave("./outputs/bs_outputs/" + os.path.basename(f).split(".")[0] + "_f.png", image_overlayed_mask)
 
         image_with_com = image.copy()
         for center in centers:
             cv2.circle(image_with_com, tuple(center), 10, (255, 255, 0), -1)
-        plt.imsave("./outputs/bs_outputs/" + os.path.basename(f).split('.')[0] + "_g.png", image_with_com)
+        #plt.imsave("./outputs/bs_outputs/" + os.path.basename(f).split('.')[0] + "_g.png", image_with_com)
 
         image_with_ellipse = image.copy()
 
@@ -88,3 +92,4 @@ if __name__ == '__main__':
             ellipse = cv2.fitEllipse(contour)
             cv2.ellipse(image_with_ellipse, ellipse, (255, 255, 0), 10)
         plt.imsave("./outputs/true_outputs/" + os.path.basename(f).split('.')[0] + "_h.png", image_with_ellipse)
+	print(time.time() - start)

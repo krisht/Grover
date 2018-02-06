@@ -127,7 +127,7 @@ def capture_video():
 if sys.argv[1] == 'server':
 	startServer()
 elif sys.argv[1] == 'client':
-	capture_video()
-	# for ii in range(10): 
-	# 	img = plt.imread('./inputs/strawberry3.jpg')
-	# 	send_file(img)
+	#capture_video()
+	for ii in range(10): 
+		img = plt.imread('./inputs/strawberry3.jpg')
+		send_file(img)

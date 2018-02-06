@@ -36,8 +36,8 @@ def send_file(image):
     try:
         server_address = ('192.168.0.106', 10000)
         client_sock.connect(server_address)
-    except socket.error, e:
-        print('Connection to %s on port %s failed: %s' % (server_address, port, e))
+    except socket.error:
+        print('Connection to %s on port %s failed: %s' % (server_address[0], server_address[1]))
         return
 
     f = StringIO()

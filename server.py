@@ -1,10 +1,10 @@
 import socket
-import numpy as np
-from cStringIO import StringIO
-import sys
-from matplotlib import pyplot as plt
 import time
+import numpy as np
+from matplotlib import pyplot as plt
+from cStringIO import StringIO
 import cv2
+
 
 def overlay_mask(mask, image):
     rgb_mask = cv2.cvtColor(mask, cv2.COLOR_GRAY2RGB)
@@ -24,50 +24,6 @@ def find_biggest_contour(image):
     mask = np.zeros(image.shape, np.uint8)
     cv2.drawContours(mask, contours, -1, 255, -1)
     return contours, mask, centers
-
-def startServer():
-	server_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	server_address = ('192.168.1.14', 10000)
-	server_sock.bind(server_address)
-
-	server_sock.listen(1)
-	while True: 
-		client_connection, client_address = server_sock.accept()
-		#print("Connected to: ", client_address)
-		ultimate_buffer=''
-		while True:
-			receiving_buffer = client_connection.recv(1024)
-			if not receiving_buffer:
-				break
-			ultimate_buffer += receiving_buffer
-		final_image = np.load(StringIO(ultimate_buffer))['frame']
-		client_connection.close()
-
-		final_image = process_image(final_image)
-		plt.imsave('./received/frame_%s.png' % time.time(), final_image)
-
-def send_file(image):
-	if not isinstance(image, np.ndarray):
-		print("Not a valid numpy image")
-		return
-	client_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-	try:
-		server_address = ('192.168.1.14', 10000)
-		client_sock.connect(server_address)
-	except socket.error:
-		print('Connection to %s on port %s failed: %s' % (server_address[0], server_address[1]))
-		return
-
-	f = StringIO()
-
-	np.savez_compressed(f, frame=image)
-
-	f.seek(0)
-	out = f.read()
-	client_sock.sendall(out)
-	client_sock.shutdown(1)
-	client_sock.close()
 
 def process_image(image):
 	#image = cv2.imread(f)
@@ -116,18 +72,26 @@ def process_image(image):
 	return image_with_ellipse
 	#plt.imsave("./outputs/true_outputs/" + os.path.basename(f).split('.')[0] + "_h.png", image_with_ellipse)
 
-def capture_video():
-	cap = cv2.VideoCapture(0)
+def startServer():
+	server_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	server_address = ('192.168.1.14', 10000)
+	server_sock.bind(server_address)
+
+	server_sock.listen(1)
 	while True: 
-		ret, frame = cap.read()
-		# Any color conversion operations here
-		send_file(frame)
+		client_connection, client_address = server_sock.accept()
+		#print("Connected to: ", client_address)
+		ultimate_buffer=''
+		while True:
+			receiving_buffer = client_connection.recv(1024)
+			if not receiving_buffer:
+				break
+			ultimate_buffer += receiving_buffer
+		final_image = np.load(StringIO(ultimate_buffer))['frame']
+		client_connection.close()
 
+		final_image = process_image(final_image)
+		plt.imsave('./received/frame_%s.png' % time.time(), final_image)
 
-if sys.argv[1] == 'server':
+if __name__ == '__main__':
 	startServer()
-elif sys.argv[1] == 'client':
-	#capture_video()
-	for ii in range(10): 
-		img = plt.imread('./inputs/strawberry3.jpg')
-		send_file(img)

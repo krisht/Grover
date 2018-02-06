@@ -5,9 +5,10 @@ import sys
 from matplotlib import pyplot as plt
 import time
 
-import scipy.misc
+
 
 def startServer():
+	import scipy.misc
     server_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_address = ('192.168.0.106', 10000)
     server_sock.bind(server_address)

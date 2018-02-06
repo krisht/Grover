@@ -1,6 +1,6 @@
 import socket
 import numpy as np
-from io import StringIO
+from cStringIO import StringIO
 import sys
 from matplotlib import pyplot as plt
 import time
@@ -27,7 +27,7 @@ def find_biggest_contour(image):
 
 def startServer():
 	server_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	server_address = ('192.168.1.14', 10000)
+	server_address = ('192.168.0.106', 10000)
 	server_sock.bind(server_address)
 
 	server_sock.listen(1)
@@ -53,7 +53,7 @@ def send_file(image):
 	client_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 	try:
-		server_address = ('192.168.1.14', 10000)
+		server_address = ('192.168.0.106', 10000)
 		client_sock.connect(server_address)
 	except socket.error:
 		print('Connection to %s on port %s failed: %s' % (server_address[0], server_address[1]))
@@ -127,7 +127,7 @@ def capture_video():
 if sys.argv[1] == 'server':
 	startServer()
 elif sys.argv[1] == 'client':
-	# capture_video()
-	for ii in range(10): 
-		img = plt.imread('./inputs/strawberry3.jpg')
-		send_file(img)
+	capture_video()
+	# for ii in range(10): 
+	# 	img = plt.imread('./inputs/strawberry3.jpg')
+	# 	send_file(img)

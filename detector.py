@@ -49,7 +49,6 @@ if __name__ == '__main__':
         # Convert image to RGB from BGR
         image = cv2.imread(f)
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-
         # Blur image slightly
 
         image_blur = cv2.GaussianBlur(image, (7, 7), 0)
@@ -92,4 +91,4 @@ if __name__ == '__main__':
             ellipse = cv2.fitEllipse(contour)
             cv2.ellipse(image_with_ellipse, ellipse, (255, 255, 0), 10)
         plt.imsave("./outputs/true_outputs/" + os.path.basename(f).split('.')[0] + "_h.png", image_with_ellipse)
-	print(time.time() - start)
+	print(time.time() - 

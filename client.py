@@ -2,7 +2,8 @@ import socket
 import numpy as np
 from cStringIO import StringIO
 import cv2
-
+import os
+import time
 
 
 
@@ -13,7 +14,7 @@ def send_file(image):
 	client_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 	try:
-		server_address = ('192.168.1.14', 10000)
+		server_address = ('10.30.7.123', 10000)
 		client_sock.connect(server_address)
 	except socket.error:
 		print('Connection to %s on port %s failed: %s' % (server_address[0], server_address[1], str(socket.error)))
@@ -40,7 +41,4 @@ def capture_video():
 
 
 if __name__ == '__main__':
-	for ii in range(10): 
-		img = cv2.imread('./inputs/strawberry3.jpg')
-		img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-		send_file(img)
+	capture_video()

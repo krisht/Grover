@@ -91,4 +91,4 @@ if __name__ == '__main__':
             ellipse = cv2.fitEllipse(contour)
             cv2.ellipse(image_with_ellipse, ellipse, (255, 255, 0), 10)
         plt.imsave("./outputs/true_outputs/" + os.path.basename(f).split('.')[0] + "_h.png", image_with_ellipse)
-	print(time.time() - 
+	print(time.time() - start)

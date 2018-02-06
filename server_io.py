@@ -116,10 +116,18 @@ def process_image(image):
 	return image_with_ellipse
 	#plt.imsave("./outputs/true_outputs/" + os.path.basename(f).split('.')[0] + "_h.png", image_with_ellipse)
 
+def capture_video():
+	cap = cv2.VideoCapture(0)
+	while True: 
+		ret, frame = cap.read()
+		# Any color conversion operations here
+		send_file(frame)
+
 
 if sys.argv[1] == 'server':
 	startServer()
-elif sys.argv[1] == 'client': 
-	for ii in range(10): 
-		img = plt.imread('./inputs/strawberry3.jpg')
-		send_file(img)
+elif sys.argv[1] == 'client':
+	capture_video()
+	# for ii in range(10): 
+	# 	img = plt.imread('./inputs/strawberry3.jpg')
+	# 	send_file(img)

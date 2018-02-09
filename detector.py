@@ -6,24 +6,28 @@ import shutil
 import time
 
 
-def overlay_mask(mask, image):
-    rgb_mask = cv2.cvtColor(mask, cv2.COLOR_GRAY2RGB)
-    img = cv2.addWeighted(rgb_mask, 0.5, image, 0.5, 0)
-    return img
+class SeeBerries: 
+    def __init__():
+        pass
 
-def find_biggest_contour(image):
-    # Copy to prevent modification
-    image = image.copy()
-    contours, hierarchy = cv2.findContours(image, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+    def overlay_mask(mask, image):
+        rgb_mask = cv2.cvtColor(mask, cv2.COLOR_GRAY2RGB)
+        img = cv2.addWeighted(rgb_mask, 0.5, image, 0.5, 0)
+        return img
 
-    centers = []
-    for ii in range(len(contours)):
-        moments = cv2.moments(contours[ii])
-        centers.append((int(moments['m10'] / moments['m00']), int(moments['m01'] / moments['m00'])))
+    def find_biggest_contour(image):
+        # Copy to prevent modification
+        image = image.copy()
+        contours, hierarchy = cv2.findContours(image, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
 
-    mask = np.zeros(image.shape, np.uint8)
-    cv2.drawContours(mask, contours, -1, 255, -1)
-    return contours, mask, centers
+        centers = []
+        for ii in range(len(contours)):
+            moments = cv2.moments(contours[ii])
+            centers.append((int(moments['m10'] / moments['m00']), int(moments['m01'] / moments['m00'])))
+
+        mask = np.zeros(image.shape, np.uint8)
+        cv2.drawContours(mask, contours, -1, 255, -1)
+        return contours, mask, centers
 
 
 

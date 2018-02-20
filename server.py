@@ -24,11 +24,13 @@ def startServer():
 				break
 			data += chunk
 		conn.close()
+		t = time.time()
 		img = loads(data, encoding='bytes')
 		img1 = SeeBerries.detect_berries(img[0])
 		img2 = SeeBerries.detect_berries(img[1])
-		plt.imsave('./received/frame1_%s.png' % time.time(), img1)
-		plt.imsave('./received/frame2_%s.png' % time.time(), img2)
+		plt.imsave('./received/frame1_%s.png' % t, img1)
+		plt.imsave('./received/frame2_%s.png' % t, img2)
+		SeeBerries.stereo_vision(img1, img2, './received/depthmap_%s' % t)
 
 if __name__ == '__main__':
 	startServer()

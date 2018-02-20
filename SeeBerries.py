@@ -72,13 +72,9 @@ def detect_berries(image):
     return image_with_ellipse
     #plt.imsave("./outputs/true_outputs/" + os.path.basename(f).split('.')[0] + "_h.png", image_with_ellipse)
 
-def stereo_vision(img1, img2):
-	stereo_vision = cv2.StereoBM_create(numDisparities=16, blockSize=15)
-	disparity=stereo_vision.compute(img1, img2)
-	print(img1.shape)
-	print(disparity.shape)
-	cv2.imwrite('depthmap.png', disparity)
-
-im1 = cv2.imread('tsukuba_l.png', 0)
-im2 = cv2.imread('tsukuba_r.png', 0)
-stereo_vision(im1, im2)
+def stereo_vision(img1, img2, title):
+    img1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
+    img2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
+    stereo_vision = cv2.StereoBM_create(numDisparities=16, blockSize=15)
+    disparity=stereo_vision.compute(img1, img2)
+    plt.imsave(title, disparity)

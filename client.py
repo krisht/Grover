@@ -9,7 +9,7 @@ from pickle import loads, dumps
 
 def send_file(image):
 	if not isinstance(image, np.ndarray):
-		print("Not a valid numpy image")
+		print("Not a valid numpy image")#smh
 		return
 	csock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 

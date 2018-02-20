@@ -9,7 +9,7 @@ from pickle import loads, dumps
 
 def startServer():
 	ssock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	server_address = ('127.0.0.1', 10000)
+	server_address = ('192.168.1.14', 10000)
 	ssock.bind(server_address)
 
 	ssock.listen(5)

@@ -32,6 +32,11 @@ def send_file(image):
 def capture_video():
 	cap1 = cv2.VideoCapture(0)
 	cap2 = cv2.VideoCapture(1)
+	cap1.set(3, 80)
+	cap1.set(4, 60)
+	cap2.set(3, 80)
+	cap2.set(4, 60)
+	
 	while True: 
 		_, frame1 = cap1.read()
 		_, frame2 = cap2.read()

@@ -15,7 +15,7 @@ def send_file(image):
 
 
 	try:
-		server_address = ('127.0.0.1', 10000)
+		server_address = ('localhost', 10000)
 		csock.connect(server_address)
 
 	except socket.error as e:

@@ -19,10 +19,10 @@ mh = Adafruit_MotorHAT(addr=0x60)
 
 cap1 = cv2.VideoCapture(0)
 cap2 = cv2.VideoCapture(1)
-cap1.set(3, 80)
-cap1.set(4, 60)
-cap2.set(3, 80)
-cap2.set(4, 60)
+cap1.set(3, 40)
+cap1.set(4, 30)
+cap2.set(3, 40)
+cap2.set(4, 30)
 
 # recommended for auto-disabling motors on shutdown!
 def turnOffMotors():

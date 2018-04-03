@@ -27,9 +27,9 @@ def startServer():
 		t = time.time()
 		img = loads(data, encoding='bytes')
 		img1 = SeeBerries.detect_berries(img[0], 'frame1_%s.png' % t)
-		img2 = SeeBerries.detect_berries(img[1],' frame2_%s.png' % t)
+		#img2 = SeeBerries.detect_berries(img[1],' frame2_%s.png' % t)
 		plt.imsave('./received/frame1_%s.png' % t, img1)
-		plt.imsave('./received/frame2_%s.png' % t, img2)
+		#plt.imsave('./received/frame2_%s.png' % t, img2)
 		#SeeBerries.stereo_vision(img1, img2, './received/depthmap_%s' % t)
 
 if __name__ == '__main__':

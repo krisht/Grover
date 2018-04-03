@@ -73,6 +73,7 @@ while True:
 		right_motor.setSpeed(slow_speed)
 
 	time.sleep(sleep_time)
+	ii+=1
 
 	if ii % 10 == 0:
 		ii = 0

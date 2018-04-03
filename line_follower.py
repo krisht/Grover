@@ -43,15 +43,15 @@ left_motor = mh.getMotor(left_motor_terminal)
 right_motor = mh.getMotor(right_motor_terminal)
 
 # Set default direction to forward
-left_motor.run(Adafruit_MotorHAT.BACKWARD)
+left_motor.run(Adafruit_MotorHAT.FORWARD)
 right_motor.run(Adafruit_MotorHAT.BACKWARD)
 
 # Turn speeds
-regular_speed = 150 # Forward speed between 0 to 255 
-slow_speed = 0 # Wheel that moves slowly speed
+regular_speed = 50 # Forward speed between 0 to 255 
+slow_speed = 20 # Wheel that moves slowly speed
 
 
-threshold = 512 # Threshold value for detection between 0 to 1023
+threshold = 400 # Threshold value for detection between 0 to 1023
 
 ii = 0
 

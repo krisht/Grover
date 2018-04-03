@@ -60,40 +60,40 @@ while True:
 	right_sensor_value = mcp.read_adc(right_sensor_port)
 	print("Left:  %d, Right: %d" % (left_sensor_value, right_sensor_value))
 
-	capture_video(cap1, cap2)
+	#capture_video(cap1, cap2)
 
-	# if(left_sensor_value > threshold and right_sensor_value > threshold): # Go straight
-	# 	if ii % 10 == 0:
-	# 		ii = 0
-	# 		left_motor.setSpeed(0)
-	# 		right_motor.setSpeed(0)
-	# 		capture_video(cap1, cap2)
-	# 	left_motor.setSpeed(regular_speed)
-	# 	right_motor.setSpeed(regular_speed)
-	# elif(left_sensor_value > threshold and right_sensor_value < threshold): # Turn right
-	# 	if ii % 10 == 0:
-	# 		ii = 0
-	# 		left_motor.setSpeed(0)
-	# 		right_motor.setSpeed(0)
-	# 		capture_video(cap1, cap2)
-	# 	left_motor.setSpeed(regular_speed)
-	# 	right_motor.setSpeed(slow_speed)
-	# elif(left_sensor_value < threshold and right_sensor_value > threshold): # Turn left
-	# 	if ii % 10 == 0:
-	# 		ii = 0
-	# 		left_motor.setSpeed(0)
-	# 		right_motor.setSpeed(0)
-	# 		capture_video(cap1, cap2)
-	# 	left_motor.setSpeed(slow_speed)
-	# 	right_motor.setSpeed(regular_speed)
-	# else: # Stop motors
-	# 	if ii % 10 == 0:
-	# 		ii = 0
-	# 		left_motor.setSpeed(0)
-	# 		right_motor.setSpeed(0)
-	# 		capture_video(cap1, cap2)
-	# 	left_motor.setSpeed(slow_speed)
-	# 	right_motor.setSpeed(slow_speed)
+	if(left_sensor_value > threshold and right_sensor_value > threshold): # Go straight
+		if ii % 10 == 0:
+			ii = 0
+			left_motor.setSpeed(0)
+			right_motor.setSpeed(0)
+			capture_video(cap1, cap2)
+		left_motor.setSpeed(regular_speed)
+		right_motor.setSpeed(regular_speed)
+	elif(left_sensor_value > threshold and right_sensor_value < threshold): # Turn right
+		if ii % 10 == 0:
+			ii = 0
+			left_motor.setSpeed(0)
+			right_motor.setSpeed(0)
+			capture_video(cap1, cap2)
+		left_motor.setSpeed(regular_speed)
+		right_motor.setSpeed(slow_speed)
+	elif(left_sensor_value < threshold and right_sensor_value > threshold): # Turn left
+		if ii % 10 == 0:
+			ii = 0
+			left_motor.setSpeed(0)
+			right_motor.setSpeed(0)
+			capture_video(cap1, cap2)
+		left_motor.setSpeed(slow_speed)
+		right_motor.setSpeed(regular_speed)
+	else: # Stop motors
+		if ii % 10 == 0:
+			ii = 0
+			left_motor.setSpeed(0)
+			right_motor.setSpeed(0)
+			capture_video(cap1, cap2)
+		left_motor.setSpeed(slow_speed)
+		right_motor.setSpeed(slow_speed)
 
 	time.sleep(sleep_time)
 	ii+=1

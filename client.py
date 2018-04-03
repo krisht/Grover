@@ -29,24 +29,10 @@ def send_file(image):
 
 
 
-def capture_video():
-	cap1 = cv2.VideoCapture(0)
-	cap2 = cv2.VideoCapture(1)
-	cap1.set(3, 80)
-	cap1.set(4, 60)
-	cap2.set(3, 80)
-	cap2.set(4, 60)
-
-	ii = 0
-	
-	while True: 
-		ii+=1
-		_, frame1 = cap1.read()
-		_, frame2 = cap2.read()
-		if ii % 10 == 0:
-			frame = np.stack((frame1, frame2))
-			# Any color conversion operations here
-			send_file(frame)
+def capture_video(cap1, cap2):
+	_, frame1 = cap1.read()
+	_, frame2 = cap2.read()
+	send_file(frame)
 
 def capture_images():
 	for ii in range(10): 

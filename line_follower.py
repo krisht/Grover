@@ -6,6 +6,8 @@ import Adafruit_MCP3008
 
 from Adafruit_MotorHAT import Adafruit_MotorHAT, Adafruit_DCMotor
 
+from client import capture_video
+
 #Software SPI
 CLK  = 18
 MISO = 23
@@ -13,6 +15,13 @@ MOSI = 24
 CS   = 25
 mcp = Adafruit_MCP3008.MCP3008(clk=CLK, cs=CS, miso=MISO, mosi=MOSI)
 mh = Adafruit_MotorHAT(addr=0x60)
+
+cap1 = cv2.VideoCapture(0)
+cap2 = cv2.VideoCapture(1)
+cap1.set(3, 80)
+cap1.set(4, 60)
+cap2.set(3, 80)
+cap2.set(4, 60)
 
 # recommended for auto-disabling motors on shutdown!
 def turnOffMotors():
@@ -43,6 +52,7 @@ slow_speed = 0 # Wheel that moves slowly speed
 
 threshold = 512 # Threshold value for detection between 0 to 1023
 
+ii = 0
 
 while True:
 	left_sensor_value = mcp.read_adc(left_sensor_port)
@@ -63,3 +73,7 @@ while True:
 		right_motor.setSpeed(slow_speed)
 
 	time.sleep(sleep_time)
+
+	if ii % 10 == 0:
+		ii = 0
+		capture_video(cap1, cap2)

@@ -2,7 +2,7 @@
 import time
 import atexit
 
-import Adafruit_MPCP3008
+import Adafruit_MCP3008
 
 from Adafruit_MotorHAT import Adafruit_MotorHAT, Adafruit_DCMotor
 
@@ -27,18 +27,18 @@ left_sensor_port = 0 # Left sensor port
 right_sensor_port = 1 # Right sensor port
 sleep_time = 0.5 # Time in seconds to wait before next reading
 
-left_motor_terminal = 1 # Left motor port
-right_motor_terminal = 2 # Right motor port
+left_motor_terminal = 2 # Left motor port
+right_motor_terminal = 4 # Right motor port
 left_motor = mh.getMotor(left_motor_terminal)
 right_motor = mh.getMotor(right_motor_terminal)
 
 # Set default direction to forward
-left_motor.run(Adafruit_MotorHAT.FORWARD)
-right_motor.run(Adafruit_MotorHAT.FORWARD)
+left_motor.run(Adafruit_MotorHAT.BACKWARD)
+right_motor.run(Adafruit_MotorHAT.BACKWARD)
 
 # Turn speeds
 regular_speed = 150 # Forward speed between 0 to 255 
-slow_speed = 75 # Wheel that moves slowly speed
+slow_speed = 0 # Wheel that moves slowly speed
 
 
 threshold = 512 # Threshold value for detection between 0 to 1023
@@ -47,17 +47,19 @@ threshold = 512 # Threshold value for detection between 0 to 1023
 while True:
 	left_sensor_value = mcp.read_adc(left_sensor_port)
 	right_sensor_value = mcp.read_adc(right_sensor_port)
+	print("Left:  %d, Right: %d" % (left_sensor_value, right_sensor_value))
 
-	if(left_sensor_value < threshold and right_sensor_value < threshold): # Go straight
+	if(left_sensor_value > threshold and right_sensor_value > threshold): # Go straight
 		left_motor.setSpeed(regular_speed)
 		right_motor.setSpeed(regular_speed)
-	elif(left_sensor_value < threshold and right_sensor_value > threshold): # Turn right
+	elif(left_sensor_value > threshold and right_sensor_value < threshold): # Turn right
 		left_motor.setSpeed(regular_speed)
 		right_motor.setSpeed(slow_speed)
-	elif(left_sensor_value > threshold and right_sensor_value < threshold): # Turn left
+	elif(left_sensor_value < threshold and right_sensor_value > threshold): # Turn left
 		left_motor.setSpeed(slow_speed)
 		right_motor.setSpeed(regular_speed)
 	else: # Stop motors
-		turnOffMotors()
+		left_motor.setSpeed(slow_speed)
+		right_motor.setSpeed(slow_speed)
 
 	time.sleep(sleep_time)

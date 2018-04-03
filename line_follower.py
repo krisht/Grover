@@ -7,6 +7,7 @@ import Adafruit_MCP3008
 from Adafruit_MotorHAT import Adafruit_MotorHAT, Adafruit_DCMotor
 
 from client import capture_video
+import cv2
 
 #Software SPI
 CLK  = 18

@@ -31,6 +31,7 @@ def send_file(image):
 
 def capture_video(cap1, cap2):
 	_, frame1 = cap1.read()
+	frame1 = frame1[:,int(frame1.shape[1]/4):int(3*frame1.shape[1]/4),:]
 	frame1 = np.stack((frame1, frame1))
 	#_, frame2 = cap2.read()
 	send_file(frame1)

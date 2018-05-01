@@ -70,7 +70,20 @@ def detect_berries(image, name):
     for contour in contours:
         ellipse = cv2.fitEllipse(contour)
         cv2.ellipse(image_with_ellipse, ellipse, (255, 255, 0), 10)
-    return image_with_ellipse
+    font                   = cv2.FONT_HERSHEY_SIMPLEX
+    bottomLeftCornerOfText = (20, 20)
+    fontScale              = 1
+    fontColor              = (255,255,255)
+    lineType               = 2
+
+    cv2.putText(image_with_ellipse, 'Count: ' + str(len(contours)),
+        bottomLeftCornerOfText, 
+        font, 
+        fontScale,
+        fontColor,
+        lineType)
+
+    return image_with_ellipse, len(contours)
     #plt.imsave("./outputs/true_outputs/" + os.path.basename(f).split('.')[0] + "_h.png", image_with_ellipse)
 
 def stereo_vision(img1, img2, title):

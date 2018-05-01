@@ -7,7 +7,9 @@ import SeeBerries
 from pickle import loads, dumps
 
 
+
 def startServer():
+	num_strawberries = 0
 	ssock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	server_address = ('192.168.1.57', 10000)
 	ssock.bind(server_address)
@@ -26,9 +28,11 @@ def startServer():
 		conn.close()
 		t = time.time()
 		img = loads(data, encoding='bytes')
-		img1 = SeeBerries.detect_berries(img[0], 'frame1_%s.png' % t)
+		img1, temp = SeeBerries.detect_berries(img[0], 'frame1_%s.png' % t)
 		#img2 = SeeBerries.detect_berries(img[1],' frame2_%s.png' % t)
 		plt.imsave('./received/frame1_%s.png' % t, img1)
+		num_strawberries+=temp
+		print(num_strawberries)
 		#plt.imsave('./received/frame2_%s.png' % t, img2)
 		#SeeBerries.stereo_vision(img1, img2, './received/depthmap_%s' % t)
 

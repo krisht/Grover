@@ -76,12 +76,13 @@ while True:
 
 	#cv2.imshow('right', fixedRight)
 	#cv2.waitKey(0)
-	#if cv2.waitKey(1) & 0xFF == ord('q'):
-	#	break
 
 	ovalImg, numBerries, centers = SeeBerries.detect_berries(fixedRight, 'blah')
 	cv2.imshow('oval', ovalImg)
 	print(centers)
+
+	if cv2.waitKey(1) & 0xFF == ord('q'):
+		break
 	cv2.waitKey(0)
 
 left.release()

@@ -1,6 +1,7 @@
 import sys
 import numpy as np
 import cv2
+import SeeBerries
 
 REMAP_INTERPOLATION = cv2.INTER_LINEAR
 
@@ -58,45 +59,30 @@ def cropHorizontal(image):
 #stereoMatcher.setSpeckleWindowSize(45)
 
 # Grab both frames first, then retrieve to minimize latency between cameras
-while(True):
-    if not left.grab() or not right.grab():
-        print("No more frames")
-        break
+while True:
+	if not left.grab() or not right.grab():
+		print("No more frames")
+	#	break
 
-#    _, leftFrame = left.retrieve()
-#    leftTemp = leftFrame.copy()
-#    leftFrame = cropHorizontal(leftFrame)
-#    leftHeight, leftWidth = leftFrame.shape[:2]
-    _, rightFrame = right.retrieve()
-    rightFrame = cropHorizontal(rightFrame)
-    rightHeight, rightWidth = rightFrame.shape[:2]
+	_, rightFrame = right.retrieve()
+	rightFrame = cropHorizontal(rightFrame)
+	rightHeight, rightWidth = rightFrame.shape[:2]
 
-#    if (leftWidth, leftHeight) != imageSize:
-#        print("Left camera has different size than the calibration data")
-#        break
+	if (rightWidth, rightHeight) != imageSize:
+		print("Right camera has different size than the calibration data")
+	#	break
 
-    if (rightWidth, rightHeight) != imageSize:
-        print("Right camera has different size than the calibration data")
-        break
+	fixedRight = cv2.remap(rightFrame, rightMapX, rightMapY, REMAP_INTERPOLATION)
 
-#    fixedLeft = cv2.remap(leftFrame, leftMapX, leftMapY, REMAP_INTERPOLATION)
-    fixedRight = cv2.remap(rightFrame, rightMapX, rightMapY, REMAP_INTERPOLATION)
+	#cv2.imshow('right', fixedRight)
+	#cv2.waitKey(0)
+	#if cv2.waitKey(1) & 0xFF == ord('q'):
+	#	break
 
-#    grayLeft = cv2.cvtColor(fixedLeft, cv2.COLOR_BGR2GRAY)
-#    grayRight = cv2.cvtColor(fixedRight, cv2.COLOR_BGR2GRAY)
-
-#    hasCorners, corners = cv2.findChessboardCorners(leftTemp, CHESSBOARD_SIZE, cv2.CALIB_CB_ADAPTIVE_THRESH + cv2.CALIB_CB_NORMALIZE_IMAGE + cv2.CALIB_CB_FAST_CHECK)
-    
-#    cv2.drawChessboardCorners(leftTemp, CHESSBOARD_SIZE, corners, True)
-#    print(corners)
-
-#    depth = stereoMatcher.compute(grayLeft, grayRight)
-
-#    cv2.imshow('left', fixedLeft)
-    cv2.imshow('right', fixedRight)
-#    cv2.imshow('depth', depth / DEPTH_VISUALIZATION_SCALE)
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
+	ovalImg, numBerries, centers = SeeBerries.detect_berries(fixedRight, 'blah')
+	cv2.imshow('oval', ovalImg)
+	print(centers)
+	cv2.waitKey(0)
 
 left.release()
 right.release()

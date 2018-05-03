@@ -83,7 +83,7 @@ def detect_berries(image, name):
         fontColor,
         lineType)
 
-    return image_with_ellipse, len(contours)
+    return image_with_ellipse, len(contours), centers
     #plt.imsave("./outputs/true_outputs/" + os.path.basename(f).split('.')[0] + "_h.png", image_with_ellipse)
 
 def stereo_vision(img1, img2, title):

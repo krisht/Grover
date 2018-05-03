@@ -2,7 +2,6 @@
 import time
 import atexit
 
-import Adafruit_MCP3008
 
 from Adafruit_MotorHAT import Adafruit_MotorHAT, Adafruit_DCMotor
 
@@ -14,15 +13,15 @@ CLK  = 18
 MISO = 23
 MOSI = 24
 CS   = 25
-mcp = Adafruit_MCP3008.MCP3008(clk=CLK, cs=CS, miso=MISO, mosi=MOSI)
+#mcp = Adafruit_MCP3008.MCP3008(clk=CLK, cs=CS, miso=MISO, mosi=MOSI)
 mh = Adafruit_MotorHAT(addr=0x60)
 
-cap1 = cv2.VideoCapture(0)
-cap2 = cv2.VideoCapture(1)
-cap1.set(3, 40)
-cap1.set(4, 30)
-cap2.set(3, 40)
-cap2.set(4, 30)
+#cap1 = cv2.VideoCapture(0)
+#cap2 = cv2.VideoCapture(1)
+#cap1.set(3, 40)
+#cap1.set(4, 30)
+#cap2.set(3, 40)
+#cap2.set(4, 30)
 
 # recommended for auto-disabling motors on shutdown!
 def turnOffMotors():
@@ -59,7 +58,7 @@ num_steps = 10
 
 start_time = time.time()
 
-time_out_time = 5
+time_out_time = 15
 
 while time.time() - start_time <= time_out_time:
 	right_motor.setSpeed(regular_speed)

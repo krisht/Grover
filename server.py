@@ -36,5 +36,14 @@ def startServer():
 		#plt.imsave('./received/frame2_%s.png' % t, img2)
 		#SeeBerries.stereo_vision(img1, img2, './received/depthmap_%s' % t)
 
-if __name__ == '__main__':
-	startServer()
+# if __name__ == '__main__':
+# 	startServer()
+
+t=0
+img = cv2.imread('cropped stitch.jpg')
+
+img1, temp = SeeBerries.detect_berries(img, 'frame1_%s.png' % t)
+#img2 = SeeBerries.detect_berries(img[1],' frame2_%s.png' % t)
+plt.imsave('./received/frame1_%s.png' % t, img1)
+num_strawberries+=temp
+print(num_strawberries)
